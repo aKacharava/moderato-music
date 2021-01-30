@@ -11,7 +11,7 @@
           <button class="play" v-if="!isPlaying" @click="play">Play</button>
           <button class="pause" v-else @click="pause">Pause</button>
           <button class="next" @click="next">Next</button>
-          <button class="mute" @click="mute">Mute</button><h3>Volume</h3> <input type="range" id="volume-slider" min="0" max="100" v-model="vSlider" v-on:change="setVolume"><h1>{{ vSlider }}</h1>
+          <button class="mute" @click="mute">Mute</button><h3>Volume</h3> <input type="range" id="volume-slider" min="0" max="100" v-model="vSlider" v-on:change="setVolumeValue"><h1>{{ vSlider }}</h1>
         </div>
       </section>
       <section class="playlist">
@@ -31,7 +31,8 @@ export default {
     return{
       current:{},
       index: 0,
-      vSlider: "",
+      vSlider: "50",
+      previousVolume: 0,
       isPlaying: false,
       songs: [
         {
@@ -90,18 +91,33 @@ export default {
       this.current = this.songs[this.index];
       this.play(this.current);
     },
+    setPreviousVolume(prevVolume){
+      this.previousVolume = prevVolume;
+    },
+    getCurrentVolume(){
+      return this.vSlider;
+    },
+    setToVolume(newVolume){
+      this.vSlider = newVolume;
+    },
+    muteVolume(){
+      this.player.muted = true;
+    },
+    unmuteVolume(){
+      this.player.muted = false;
+    },
     mute(){
-      var tempVal = this.vSlider;
-      if(this.vSlider != 0){
-        this.vSlider = 0
+      if(this.getCurrentVolume() === 0){
+        this.setToVolume(this.previousVolume);
+        this.unmuteVolume();
       }
       else{
-        this.vSlider = tempVal;
+        this.setPreviousVolume(this.getCurrentVolume());
+        this.setToVolume(0);
+        this.muteVolume();
       }
-      
-      this.player.muted = !this.player.muted;
     },
-    setVolume(){
+    setVolumeValue(){
       var volValue = this.vSlider / 100;
       this.player.volume = volValue;
     }
