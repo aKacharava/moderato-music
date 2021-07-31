@@ -1,24 +1,11 @@
 # moderato-music
 
-## Project setup
+## How to use
 ```
-npm install
-```
+A play button to play the current song
+A previous/next button to switch between songs
+A mute button to mute/unmute the song.
+A volume slider to change the volume.
+A playlist to select a song you want to listen to.
 
-### Compiles and hot-reloads for development
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
